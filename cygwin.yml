@@ -1,0 +1,17 @@
+---
+- name: Remove all projects from BOINC
+  hosts: boinc-windows
+
+  vars_files:
+    - vars/vars.yml
+    - vars/winrm.yml
+
+  tasks:
+    - name: 'Ensure Ansible directory exists.'
+      win_file: path={{ ansibledir }} state=directory
+    
+    - name: 'Push PowerShell script to install cygwin.'
+      win_template: src=templates/ansible-cygwin-installer.j2 dest='{{ ansibledir }}\ansible-cygwin-installer.ps1'
+
+    - name: 'Install Cygwin via Powershell Script.'
+      raw: '{{ ansibledir }}\ansible-cygwin-installer.ps1' 
