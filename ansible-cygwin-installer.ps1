@@ -14,7 +14,7 @@
 #
 
 $storageDir = $pwd
-$cygwinHome = "c:\cygwin"
+$cygwinHome = "c:\cygwin64\"
 $cygwinUrlRoot = "http://cygwin.com"
 $getPipUrlRoot = "https://bootstrap.pypa.io"
 $cygwinMirror = "http://cygwin.mirrors.pair.com"
@@ -50,16 +50,3 @@ Start-Process -FilePath $cygwinSetupPath -ArgumentList $cygwinSetupArgs -Wait
 
 # Add cygwin bin dir to path
 $ENV:PATH="$cygwinHome\bin;$ENV:PATH"
-
-# Install pip
-Start-Process -FilePath $cygwinHome\bin\bash.exe -ArgumentList '-c', """wget.exe $getPipUrlRoot/get-pip.py""" -Wait -NoNewWindow
-Start-Process -FilePath $cygwinHome\bin\bash.exe -ArgumentList '-c', '"python2.7.exe get-pip.py"' -Wait -NoNewWindow
-
-# Fix fork() errors on some systems
-Start-Process -FilePath $cygwinHome\bin\dash.exe -ArgumentList '-c', '"/usr/bin/rebaseall -v"' -Wait -NoNewWindow
-
-# Install Ansible via pip
-Start-Process -FilePath $cygwinHome\bin\bash.exe -ArgumentList '-c', '"pip2.7 install ansible"' -Wait -NoNewWindow
-
-# Run Ansible from outside of Cygwin shell
-Start-Process -FilePath $cygwinHome\bin\bash.exe -ArgumentList '-c', '"ansible --version"' -Wait -NoNewWindow
